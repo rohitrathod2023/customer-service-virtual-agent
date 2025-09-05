@@ -1,0 +1,26 @@
+name: Deploy Infra
+
+on:
+  push:
+    paths:
+      - 'infra/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Bicep
+        uses: azure/cli@v1
+        with:
+          inlineScript: |
+            az deployment group create \
+              --resource-group rg-csvc-core-dev-sea-001 \
+              --template-file infra/main.bicep \
+              --parameters storageAccountName=stcsvcdevrohitbicep
