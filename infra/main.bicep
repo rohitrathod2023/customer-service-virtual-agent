@@ -38,7 +38,7 @@ resource webapp 'Microsoft.Web/sites@2022-09-01' = {
   properties: {
     serverFarmId: asp.id
     siteConfig: {
-      linuxFxVersion: 'PYTHON|3.12'
+      
     }
   }
 }
