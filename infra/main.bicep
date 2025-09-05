@@ -22,8 +22,12 @@ param webAppName string = 'api-csvc-dev-sea-001'
 resource asp 'Microsoft.Web/serverfarms@2022-09-01' = {
   name: appServicePlanName
   location: resourceGroup().location
+  kind: 'linux'  // This is important
+  properties: {
+    reserved: true  // This must be true for Linux
+  }
   sku: {
-    name: 'B1'  // Basic, cheap for dev
+    name: 'B1'  // or your preferred SKU
     tier: 'Basic'
   }
 }
@@ -34,7 +38,7 @@ resource webapp 'Microsoft.Web/sites@2022-09-01' = {
   properties: {
     serverFarmId: asp.id
     siteConfig: {
-      linuxFxVersion: 'PYTHON|3.10'
+      linuxFxVersion: 'PYTHON|3.12'
     }
   }
 }
