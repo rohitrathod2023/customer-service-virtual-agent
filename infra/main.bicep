@@ -27,8 +27,8 @@ resource asp 'Microsoft.Web/serverfarms@2024-04-01' = {
     reserved: true  // This must be true for Linux
   }
   sku: {
-    name: 'B1'  
-    tier: 'Basic'
+    name: 'F1'  
+    tier: 'Free'
   }
 }
 
@@ -39,6 +39,7 @@ resource webapp 'Microsoft.Web/sites@2024-04-01' = {
     serverFarmId: asp.id
     siteConfig: {
       linuxFxVersion: 'PYTHON|3.12'
+      appCommandLine: 'gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app'
     }
   }
 }
